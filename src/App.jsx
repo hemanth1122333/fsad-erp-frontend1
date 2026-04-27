@@ -10,12 +10,12 @@ import Teachers from './pages/Teachers';
 import Classes from './pages/Classes';
 import Attendance from './pages/Attendance';
 import AttendanceStudent from './pages/AttendanceStudent';
+import Timetable from './pages/Timetable';
 import Grades from './pages/Grades';
 import Assignments from './pages/Assignments';
 import Submissions from './pages/Submissions';
 import Messages from './pages/Messages';
 import Notifications from './pages/Notifications';
-import Logs from './pages/Logs';
 
 const RootRedirect = () => {
   const { user, loading } = useContext(AuthContext);
@@ -41,16 +41,19 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/:role" element={<Dashboard />} />
             <Route path="/students" element={<Students />} />
-            <Route path="/teachers" element={<Teachers />} />
             <Route path="/classes" element={<Classes />} />
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/attendance/student" element={<AttendanceStudent />} />
+            <Route path="/timetable" element={<Timetable />} />
             <Route path="/grades" element={<Grades />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/submissions" element={<Submissions />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/notifications" element={<Notifications />} />
-            <Route path="/logs" element={<Logs />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={['ROLE_ADMIN']} />}>
+            <Route path="/teachers" element={<Teachers />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/login" replace />} />

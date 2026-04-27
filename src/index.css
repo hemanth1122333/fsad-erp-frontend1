@@ -580,6 +580,277 @@ a {
   line-height: 1.5;
 }
 
+.student-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.student-home-hero {
+  min-height: 250px;
+  display: flex;
+  align-items: end;
+  background:
+    linear-gradient(145deg, rgba(33, 94, 255, 0.14), rgba(6, 118, 71, 0.10)),
+    var(--panel-strong);
+}
+
+.student-home-hero h2 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.02;
+}
+
+.student-home-hero p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.student-focus-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.student-focus-panel h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.student-home-link {
+  width: fit-content;
+  text-decoration: none;
+}
+
+.student-action-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.student-action-card {
+  min-height: 168px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.student-action-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(33, 94, 255, 0.28);
+}
+
+.student-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  background: rgba(33, 94, 255, 0.10);
+}
+
+.student-action-card strong {
+  font-size: 1.08rem;
+}
+
+.student-action-card small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.timetable-page {
+  display: grid;
+  gap: 18px;
+}
+
+.timetable-hero {
+  min-height: 190px;
+  display: flex;
+  align-items: end;
+  background:
+    linear-gradient(145deg, rgba(15, 118, 110, 0.13), rgba(33, 94, 255, 0.10)),
+    var(--panel-strong);
+}
+
+.timetable-hero h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1.04;
+}
+
+.timetable-hero p {
+  max-width: 64ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.timetable-subjects {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.subject-card {
+  min-height: 118px;
+  display: grid;
+  gap: 8px;
+}
+
+.subject-card span {
+  width: fit-content;
+  padding: 0.35rem 0.55rem;
+  border-radius: 10px;
+  color: var(--primary-strong);
+  background: rgba(33, 94, 255, 0.10);
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+
+.subject-card strong {
+  font-size: 0.98rem;
+}
+
+.subject-card small,
+.holiday-card small {
+  color: var(--muted);
+}
+
+.timetable-panel {
+  overflow: hidden;
+}
+
+.timetable-section-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.timetable-section-switcher h2 {
+  margin: 0;
+}
+
+.section-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.timetable-wrap {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.timetable-table {
+  min-width: 1120px;
+}
+
+.timetable-table th {
+  vertical-align: top;
+}
+
+.timetable-table th small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.timetable-table td {
+  height: 92px;
+  vertical-align: top;
+}
+
+.timetable-table td:first-child {
+  width: 120px;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.timetable-filled,
+.timetable-free {
+  white-space: normal;
+}
+
+.timetable-filled {
+  background: rgba(33, 94, 255, 0.055);
+}
+
+.timetable-free {
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.025);
+}
+
+.timetable-filled strong,
+.timetable-free strong,
+.timetable-filled span,
+.timetable-free span,
+.timetable-filled em,
+.timetable-free em,
+.timetable-filled small {
+  display: block;
+}
+
+.timetable-filled strong,
+.timetable-free strong {
+  margin-bottom: 4px;
+}
+
+.timetable-filled span,
+.timetable-free span {
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.timetable-filled em,
+.timetable-free em {
+  margin-top: 6px;
+  color: #344054;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.timetable-filled small {
+  margin-top: 6px;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.holiday-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.holiday-card {
+  display: grid;
+  gap: 8px;
+  min-height: 120px;
+  background:
+    linear-gradient(145deg, rgba(180, 35, 24, 0.06), rgba(15, 118, 110, 0.06)),
+    var(--panel);
+}
+
+.holiday-card span {
+  color: var(--danger);
+  font-weight: 800;
+}
+
 .wide-panel {
   grid-column: 1 / -1;
 }
@@ -593,6 +864,10 @@ a {
   grid-template-columns: 380px 1fr;
   gap: 18px;
   align-items: start;
+}
+
+.page-grid-readonly {
+  grid-template-columns: 1fr;
 }
 
 .stack-form {
@@ -711,8 +986,22 @@ th {
   .app-shell,
   .auth-card,
   .page-grid,
+  .student-home-grid,
   .dashboard-grid {
     grid-template-columns: 1fr;
+  }
+
+  .student-action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timetable-subjects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timetable-section-switcher {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .hero-panel {

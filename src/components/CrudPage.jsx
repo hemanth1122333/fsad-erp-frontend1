@@ -4,7 +4,7 @@ import AppLayout from './AppLayout';
 
 const resolveValue = (item, path) => path.split('.').reduce((value, key) => (value == null ? value : value[key]), item);
 
-const CrudPage = ({ title, endpoint, fields, columns, initialForm, subtitle }) => {
+const CrudPage = ({ title, endpoint, fields, columns, initialForm, subtitle, readOnly = false }) => {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
@@ -75,46 +75,48 @@ const CrudPage = ({ title, endpoint, fields, columns, initialForm, subtitle }) =
 
   return (
     <AppLayout title={title}>
-      <div className="page-grid">
-        <section className="panel panel-form">
-          <div className="panel-header">
-            <div>
-              <p className="eyebrow">Manage records</p>
-              <h2>{editingId ? `Edit ${title}` : `Add ${title}`}</h2>
-              {subtitle ? <p className="muted">{subtitle}</p> : null}
+      <div className={`page-grid ${readOnly ? 'page-grid-readonly' : ''}`}>
+        {!readOnly ? (
+          <section className="panel panel-form">
+            <div className="panel-header">
+              <div>
+                <p className="eyebrow">Manage records</p>
+                <h2>{editingId ? `Edit ${title}` : `Add ${title}`}</h2>
+                {subtitle ? <p className="muted">{subtitle}</p> : null}
+              </div>
             </div>
-          </div>
 
-          {error ? <div className="alert error">{error}</div> : null}
-          {success ? <div className="alert success">{success}</div> : null}
+            {error ? <div className="alert error">{error}</div> : null}
+            {success ? <div className="alert success">{success}</div> : null}
 
-          <form className="stack-form" onSubmit={onSubmit}>
-            {fields.map((field) => (
-              <label key={field.name} className="field">
-                <span>{field.label}</span>
-                {field.type === 'textarea' ? (
-                  <textarea name={field.name} value={form[field.name] ?? ''} onChange={onChange} rows={field.rows || 4} placeholder={field.placeholder || ''} />
-                ) : field.type === 'select' ? (
-                  <select name={field.name} value={form[field.name] ?? ''} onChange={onChange}>
-                    <option value="">Select...</option>
-                    {field.options?.map((option) => (
-                      <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                  </select>
-                ) : field.type === 'checkbox' ? (
-                  <input name={field.name} type="checkbox" checked={Boolean(form[field.name])} onChange={onChange} />
-                ) : (
-                  <input name={field.name} type={field.type || 'text'} value={form[field.name] ?? ''} onChange={onChange} placeholder={field.placeholder || ''} />
-                )}
-              </label>
-            ))}
+            <form className="stack-form" onSubmit={onSubmit}>
+              {fields.map((field) => (
+                <label key={field.name} className="field">
+                  <span>{field.label}</span>
+                  {field.type === 'textarea' ? (
+                    <textarea name={field.name} value={form[field.name] ?? ''} onChange={onChange} rows={field.rows || 4} placeholder={field.placeholder || ''} />
+                  ) : field.type === 'select' ? (
+                    <select name={field.name} value={form[field.name] ?? ''} onChange={onChange}>
+                      <option value="">Select...</option>
+                      {field.options?.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  ) : field.type === 'checkbox' ? (
+                    <input name={field.name} type="checkbox" checked={Boolean(form[field.name])} onChange={onChange} />
+                  ) : (
+                    <input name={field.name} type={field.type || 'text'} value={form[field.name] ?? ''} onChange={onChange} placeholder={field.placeholder || ''} />
+                  )}
+                </label>
+              ))}
 
-            <div className="form-actions">
-              <button type="submit" className="primary-button">{editingId ? 'Update' : 'Save'}</button>
-              <button type="button" className="secondary-button" onClick={resetForm}>Reset</button>
-            </div>
-          </form>
-        </section>
+              <div className="form-actions">
+                <button type="submit" className="primary-button">{editingId ? 'Update' : 'Save'}</button>
+                <button type="button" className="secondary-button" onClick={resetForm}>Reset</button>
+              </div>
+            </form>
+          </section>
+        ) : error ? <div className="alert error">{error}</div> : null}
 
         <section className="panel">
           <div className="panel-header">
@@ -135,7 +137,7 @@ const CrudPage = ({ title, endpoint, fields, columns, initialForm, subtitle }) =
                 <thead>
                   <tr>
                     {columns.map((column) => <th key={column.key}>{column.label}</th>)}
-                    <th>Actions</th>
+                    {!readOnly ? <th>Actions</th> : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -144,12 +146,14 @@ const CrudPage = ({ title, endpoint, fields, columns, initialForm, subtitle }) =
                       {columns.map((column) => (
                         <td key={column.key}>{column.formatter ? column.formatter(item) : resolveValue(item, column.key)}</td>
                       ))}
-                      <td>
-                        <div className="row-actions">
-                          <button type="button" className="link-button" onClick={() => onEdit(item)}>Edit</button>
-                          <button type="button" className="link-button danger" onClick={() => onDelete(item)}>Delete</button>
-                        </div>
-                      </td>
+                      {!readOnly ? (
+                        <td>
+                          <div className="row-actions">
+                            <button type="button" className="link-button" onClick={() => onEdit(item)}>Edit</button>
+                            <button type="button" className="link-button danger" onClick={() => onDelete(item)}>Delete</button>
+                          </div>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

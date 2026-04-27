@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { BookOpen, ClipboardList, GraduationCap, LayoutDashboard, LogOut, MessageSquare, School, BellRing, Users, CalendarDays, FileText, UserCheck, ShieldAlert } from 'lucide-react';
+import { BookOpen, ClipboardList, GraduationCap, LayoutDashboard, LogOut, MessageSquare, School, BellRing, Users, CalendarDays, FileText, UserCheck, ShieldAlert, Clock } from 'lucide-react';
 
 const AppLayout = ({ title, children }) => {
   const { user, logout } = useContext(AuthContext);
@@ -9,6 +9,7 @@ const AppLayout = ({ title, children }) => {
 
   const roles = user?.roles || [];
   const isStudent = roles.includes('ROLE_STUDENT');
+  const isTeacher = roles.includes('ROLE_TEACHER');
   const attendancePath = isStudent ? '/attendance/student' : '/attendance';
 
   const navItems = [
@@ -17,13 +18,21 @@ const AppLayout = ({ title, children }) => {
     { to: '/teachers', label: 'Teachers', icon: GraduationCap },
     { to: '/classes', label: 'Classes', icon: School },
     { to: attendancePath, label: 'Attendance', icon: CalendarDays },
+    { to: '/timetable', label: 'Timetable', icon: Clock },
     { to: '/grades', label: 'Grades', icon: ClipboardList },
     { to: '/assignments', label: 'Assignments', icon: FileText },
     { to: '/submissions', label: 'Submissions', icon: UserCheck },
     { to: '/messages', label: 'Messages', icon: MessageSquare },
     { to: '/notifications', label: 'Notifications', icon: BellRing },
-    { to: '/logs', label: 'Activity Logs', icon: ShieldAlert },
-  ].filter((item) => !isStudent || ['/dashboard', '/attendance/student', '/grades', '/assignments', '/messages', '/notifications'].includes(item.to));
+  ].filter((item) => {
+    if (isStudent) {
+      return ['/dashboard', '/attendance/student', '/timetable', '/grades', '/assignments', '/messages', '/notifications'].includes(item.to);
+    }
+    if (isTeacher) {
+      return item.to !== '/teachers';
+    }
+    return true;
+  });
 
   const handleLogout = () => {
     logout();
