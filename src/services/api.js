@@ -1,36 +1,19 @@
-import axios from 'axios';
-
-export const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080';
-export const API_URL = `${API_BASE}/api`;
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: "https://fsad-erp-backend-2.onrender.com/api",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const user = JSON.parse(localStorage.getItem('erp_user'));
-    if (user && user.token) {
-      config.headers.Authorization = `Bearer ${user.token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+// Attach JWT token automatically
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-);
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('erp_user');
-    }
-    return Promise.reject(error);
-  }
-);
+  return config;
+});
 
 export default api;

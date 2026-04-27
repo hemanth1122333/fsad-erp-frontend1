@@ -1,45 +1,38 @@
-import React from 'react';
-import { RefreshCw } from 'lucide-react';
-import { API_BASE } from '../services/api';
+import React from "react";
 
-const resolveCaptchaUrl = (url) => {
-  if (!url) {
-    return '';
-  }
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return url;
-  }
-  return `${API_BASE}${url.startsWith('/') ? url : `/${url}`}`;
-};
+const BACKEND_URL = "https://fsad-erp-backend-2.onrender.com";
 
 const CaptchaGrid = ({ challenge, selectedImageIds, onToggle, onRefresh }) => {
+  if (!challenge || !challenge.images) {
+    return <div>Loading CAPTCHA...</div>;
+  }
+
   return (
-    <div className="captcha-card">
-      <div className="captcha-header">
-        <div>
-          <p className="eyebrow">Image CAPTCHA</p>
-          <h3>{challenge?.question || 'Loading CAPTCHA...'}</h3>
-        </div>
-        <button type="button" className="ghost-button" onClick={onRefresh}>
-          <RefreshCw size={16} /> Refresh CAPTCHA
-        </button>
+    <div className="captcha-box">
+      <p><strong>{challenge.question}</strong></p>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+        {challenge.images.map((img) => (
+          <img
+            key={img.id}
+            src={`${BACKEND_URL}${img.url}`}
+            alt="captcha"
+            onClick={() => onToggle(img.id)}
+            style={{
+              width: "100%",
+              cursor: "pointer",
+              border: selectedImageIds.includes(img.id)
+                ? "3px solid green"
+                : "2px solid #ccc",
+              borderRadius: 8,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="captcha-grid">
-        {(challenge?.images || []).map((image) => {
-          const selected = selectedImageIds.includes(image.id);
-          return (
-            <button
-              key={image.id}
-              type="button"
-              className={`captcha-tile ${selected ? 'selected' : ''}`}
-              onClick={() => onToggle(image.id)}
-            >
-              <img src={resolveCaptchaUrl(image.url)} alt="captcha option" />
-            </button>
-          );
-        })}
-      </div>
+      <button type="button" onClick={onRefresh} style={{ marginTop: 10 }}>
+        Refresh CAPTCHA
+      </button>
     </div>
   );
 };
