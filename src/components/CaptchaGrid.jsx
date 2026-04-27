@@ -15,7 +15,7 @@ const CaptchaGrid = ({ challenge, selectedImageIds, onToggle, onRefresh }) => {
         {challenge.images.map((img) => (
           <img
             key={img.id}
-            src={`${BACKEND_URL}${img.url}`}
+            src={`${BACKEND_URL}${img.url}?t=${Date.now()}`}
             alt="captcha"
             onClick={() => onToggle(img.id)}
             style={{
